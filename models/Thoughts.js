@@ -1,7 +1,5 @@
-// Import 'model' and 'Schema' from mongoose
-const { model, Schema } = require('mongoose');
-
 const mongoose = require('mongoose');
+const reactionSchema = require('./Reactions');
 
 const thoughtSchema = new mongoose.Schema({
   thoughtText: {
@@ -18,12 +16,7 @@ const thoughtSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  reactions: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Reaction'
-    }
-  ]
+  reactions: [reactionSchema]
 });
 
 const Thought = mongoose.model('Thought', thoughtSchema);

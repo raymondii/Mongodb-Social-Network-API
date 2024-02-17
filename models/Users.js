@@ -1,10 +1,7 @@
-// Import 'model' and 'Schema' from mongoose
-const { model, Schema, default: mongoose } = require('mongoose');
-// Import 'hash' and 'compare' from bcrypt
+const mongoose = require('mongoose');
 const { hash, compare } = require('bcrypt');
-// Create the userSchema with the following criteria
 
-const userSchema = new Schema({
+const userSchema = new mongoose.Schema({
     username: {
         type: String,
         unique: true,
@@ -40,23 +37,19 @@ const userSchema = new Schema({
       }
 });
 
-
-// checks if password is new or if they are mdoifingy their old password and if it is it hashes it
 userSchema.pre('save', async function (next) {
     if (this.isNew || this.isModified("password")) {
         this.password = await hash(this.password, 10);
     }
 
-    next(); // if you do not call next it will not save
+    next();
 });
 
 userSchema.methods.validatePass = async function (formPassword) {
     const is_valid = await compare(formPassword, this.password);
-
     return is_valid;
 }
 
-// deletes the password and the version info before it is sent
 userSchema.set('toJSON', {
     transform: (_, user) => {
         delete user.password;
@@ -65,6 +58,6 @@ userSchema.set('toJSON', {
     },
 });
 
-const User = model('User', userSchema);
+const User = mongoose.model('User', userSchema);
 
 module.exports = User;

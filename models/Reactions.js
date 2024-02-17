@@ -1,6 +1,3 @@
-// Import 'model' and 'Schema' from mongoose
-const { model, Schema } = require('mongoose');
-
 const mongoose = require('mongoose');
 
 const reactionSchema = new mongoose.Schema({
@@ -25,6 +22,4 @@ const reactionSchema = new mongoose.Schema({
   }
 });
 
-const Reaction = mongoose.model('Reaction', reactionSchema);
-
-module.exports = Reaction;
+module.exports = reactionSchema;
